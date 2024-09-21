@@ -9,6 +9,7 @@ export default function Main() {
     const [completionDate, setCompletionDate] = useState('');
     const [rfqCode, setRfqCode] = useState('');
     let [isOverview,setIsOverview]=useState(true)
+    const [dateError, setDateError] = useState('');
     const [isShareModalVisible, setShareModalVisible] = useState(false);
     const handleShareModalClose = () => {
         setShareModalVisible(false);
@@ -106,14 +107,14 @@ export default function Main() {
         }
     ]);
 
-    const checkAllPackages = () => {
+    const checkAllPackages = (e) => {
         if(packagecheck){
             setpackage()
         }else{
 
         }
         const newData = data.map(item => {
-            const newChecked = !item.isChecked;
+            const newChecked = e.target.checked;
             item.activities.map((d)=>{
                 d.workitem.map((d)=>d.isChecked=newChecked)
 
@@ -195,17 +196,21 @@ export default function Main() {
         }
     };
     return (
-        <div className='w-[100vw] p-10'>
+        <div className='w-[100vw] p-10 overflow-hidden'>
        <>
        
             <h1 className='text-2xl mb-10'>Create WorkOrder</h1>
-            <div className='flex mb-10 relative'>
-              
+            <div className='flex mb-10 relative gap-5 flex-wrap'>
+              <div className='flex-row flex  w-[80%] min-w-[400px] flex-wrap'>
+
                 <div onClick={()=>setIsOverview(true)} className={` cursor-pointer border-black border-b-[2px] ${!isOverview?"border-b-gray-400 text-gray-400":"border-b-black text-black"} text-black font-semibold text-lg  w-[250px] text-center p-2`}>Overview</div>
                 <div onClick={()=>setIsOverview(false)} className={`w-[250px] cursor-pointer border-b-[2px] ${isOverview?"border-b-gray-400 text-gray-400":" text-black border-b-black"}  font-semibold text-lg text-center p-2`}>Other</div>
-                <button onClick={()=>setShareModalVisible(true)} className='absolute right-20 p-2 text-lg pl-4 pr-4 rounded-md text-white bg-green-400 '>Save </button>
+              </div>
+                <button onClick={()=>setShareModalVisible(true)} className='w-[200px] p-2 text-lg pl-4 pr-4 rounded-md text-white bg-green-400 '>Save </button>
             </div>
-        {isOverview &&   <div className='w-[100%] flex flex-row gap-0 bg-blue-400 text-black font-semibold text-md pt-[10px] pb-[10px] pl-[15px]'>
+            <div className='min-w-[900px] overflow-scroll'>
+
+        {isOverview &&   <div className='w-[90vw] flex flex-row gap-0 bg-blue-400 text-black font-semibold text-md pt-[10px] pb-[10px] pl-[15px]'>
                 <div className='w-[33%]  font-[450]  text-[17px]'>
                     <input onChange={checkAllPackages} type='checkbox' className='mr-[50px] h-[20px] w-[20px] text-blue-600 focus:ring-0  border-gray-300 rounded-lg cursor-pointer border-none outline-none' />
                    Packages
@@ -214,8 +219,8 @@ export default function Main() {
                 <div className='w-[33%]   font-[450]  text-[17px]'>Total</div>
         </div>}
          {isOverview ?   data.map((item, index) => (
-                <div key={index} className='border-b-2  border-r-2 border-l-2  border-b-gray-300'>
-                    <div className='w-[100%] text-[17px] font-[450]  text-black pt-[10px] pb-[10px] pl-[15px] flex flex-row gap-0'>
+                <div key={index} className='border-b-2 w-[90vw]  border-r-2 border-l-2  border-b-gray-300'>
+                    <div className='w-[90vw] text-[17px] font-[450]  text-black pt-[10px] pb-[10px] pl-[15px] flex flex-row gap-0'>
                         <div className='w-[33%] '>
                             <input 
                                 type='checkbox' 
@@ -229,7 +234,7 @@ export default function Main() {
                         <div className='w-[33%] flex flex-row justify-between'>
                             {item.total} 
                            
-                           {item.isExpanded ?<FaMinus className='relative right-[120px] cursor-pointer' onClick={() => handleOpener1(index)} color='blue' size={'1.4rem'} />: <FaPlus className='relative right-[120px] cursor-pointer' onClick={() => handleOpener1(index)} color='blue' size={'1.4rem'} />}
+                           {item.isExpanded ?<FaMinus className='relative right-[120px] cursor-pointer max-md:right-[10px]' onClick={() => handleOpener1(index)} color='blue' size={'1.4rem'} />: <FaPlus className='relative right-[120px] cursor-pointer right-[120px] cursor-pointer max-md:right-[10px]' onClick={() => handleOpener1(index)} color='blue' size={'1.4rem'} />}
                         </div>
                     </div>
                     {item.isExpanded && item.activities.map((activity, activityIndex) => (
@@ -239,7 +244,7 @@ export default function Main() {
                                     {activityIndex === 0 && <div className='absolute h-[20px] w-[180px] border-b border-l border-b-gray-300 border-l-gray-300 top-[-10px] right-4'></div>}
                                 </div> */}
                                 <div className='w-[33%] relative pl-[6%]'>
-                                {activityIndex === 0 && <div className='absolute h-[20px] w-[50px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] left-6'></div>}
+                                {activityIndex === 0 && <div className='absolute h-[20px] max-sm:hidden w-[40px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] max-lg:left-1 max-lg:w-[30px] max-sm:w-[20px] left-4'></div>}
 
                                     <input 
                                         type='checkbox' 
@@ -262,13 +267,13 @@ export default function Main() {
                                 <div className='w-[33%] '>{item.rate}</div>
                                 <div className='w-[33%] flex flex-row justify-between  '>
                                     {item.total} 
-                                 {activity.isExpanded ?<FaCaretUp onClick={() => handleOpener2(index, activityIndex)} className='relative  cursor-pointer right-[125px]' />:   <FaCaretDown onClick={() => handleOpener2(index, activityIndex)} className='relative  cursor-pointer right-[125px]' />}
+                                 {activity.isExpanded ?<FaCaretUp onClick={() => handleOpener2(index, activityIndex)} className='relative  cursor-pointer right-[125px] max-md:right-[10px]' />:   <FaCaretDown onClick={() => handleOpener2(index, activityIndex)} className='relative right-[125px] cursor-pointer max-md:right-[10px]' />}
                                 </div>
                             </div>
                             {activity.isExpanded && activity.workitem.map((workitem, workitemIndex) => (
                                 <div key={workitemIndex} className='w-[100%] text-[17px] flex pt-[10px] pb-[10px] pl-[15px] flex-row gap-0 '>
                                     <div className='w-[33%] relative pl-[18%]'>
-                                    <div className='absolute h-[20px] w-[50px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] left-52'></div>
+                                    <div className='absolute h-[20px] w-[30px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] left-44 max-lg:left-10 max-xl:left-14 max-sm:hidden z-[-1]   max-lg:w-[30px] max-sm:w-[20px]'></div>
 
                                         <input type='checkbox' checked={workitem.isChecked} onClick={()=>handleworkChange(index,activityIndex,workitemIndex)} className='mr-[50px]  h-[20px] w-[20px] text-blue-600 focus:ring-0  border-gray-300 rounded-lg cursor-pointer border-none outline-none'  />
                                         <em>{workitem.name}</em>
@@ -282,6 +287,7 @@ export default function Main() {
                 </div>
             ))
             : <div>Hello world</div>}
+            </div>
               <Modal
             title="Please Fill the Details"
             visible={isShareModalVisible}
