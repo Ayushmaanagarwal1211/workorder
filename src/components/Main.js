@@ -208,7 +208,7 @@ export default function Main() {
               </div>
                 <button onClick={()=>setShareModalVisible(true)} className='w-[200px] p-2 text-lg pl-4 pr-4 rounded-md text-white bg-green-400 '>Save </button>
             </div>
-            <div className='min-w-[900px] overflow-scroll'>
+            <div className='min-w-[900px] '>
 
         {isOverview &&   <div className='w-[90vw] flex flex-row gap-0 bg-blue-400 text-black font-semibold text-md pt-[10px] pb-[10px] pl-[15px]'>
                 <div className='w-[33%]  font-[450]  text-[17px]'>
