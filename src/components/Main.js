@@ -9,7 +9,6 @@ export default function Main() {
     const [completionDate, setCompletionDate] = useState('');
     const [rfqCode, setRfqCode] = useState('');
     let [isOverview,setIsOverview]=useState(true)
-    const [dateError, setDateError] = useState('');
     const [isShareModalVisible, setShareModalVisible] = useState(false);
     const handleShareModalClose = () => {
         setShareModalVisible(false);
@@ -208,21 +207,21 @@ export default function Main() {
             </div>
         {isOverview &&   <div className='w-[100%] flex flex-row gap-0 bg-blue-400 text-black font-semibold text-md pt-[10px] pb-[10px] pl-[15px]'>
                 <div className='w-[33%]  font-[450]  text-[17px]'>
-                    <input onChange={checkAllPackages} type='checkbox' className='mr-[50px]' />
+                    <input onChange={checkAllPackages} type='checkbox' className='mr-[50px] h-[20px] w-[20px] text-blue-600 focus:ring-0  border-gray-300 rounded-lg cursor-pointer border-none outline-none' />
                    Packages
                 </div>
                 <div className='w-[33%] font-[450]   text-[17px]'>Rate <em>(in sqft.)</em></div>
                 <div className='w-[33%]   font-[450]  text-[17px]'>Total</div>
         </div>}
          {isOverview ?   data.map((item, index) => (
-                <div key={index}>
-                    <div className='w-[100%]  font-[450]  text-black pt-[10px] pb-[10px] pl-[15px] flex flex-row gap-0'>
+                <div key={index} className='border-b-2  border-r-2 border-l-2  border-b-gray-300'>
+                    <div className='w-[100%] text-[17px] font-[450]  text-black pt-[10px] pb-[10px] pl-[15px] flex flex-row gap-0'>
                         <div className='w-[33%] '>
                             <input 
                                 type='checkbox' 
                                 checked={item.isChecked} 
                                 onChange={() => checkAllActivities(index)} 
-                                className='mr-[50px]' 
+                                className='mr-[50px] h-[20px] w-[20px] text-blue-600 focus:ring-0  border-gray-300 rounded-lg cursor-pointer border-none outline-none' 
                             />
                            {item.package}
                         </div>
@@ -234,7 +233,7 @@ export default function Main() {
                         </div>
                     </div>
                     {item.isExpanded && item.activities.map((activity, activityIndex) => (
-                        <div key={activityIndex} className='text-black '>
+                        <div key={activityIndex} className='text-black text-[17px]'>
                             <div className='w-[100%] pt-[10px] pb-[10px] pl-[15px] flex flex-row gap-0'>
                                 {/* <div className='sd w-[20%] relative'>
                                     {activityIndex === 0 && <div className='absolute h-[20px] w-[180px] border-b border-l border-b-gray-300 border-l-gray-300 top-[-10px] right-4'></div>}
@@ -256,7 +255,7 @@ export default function Main() {
                                             // console.log(newData[index].activities[activityIndex].workitem)
                                             setData(newData);
                                         }} 
-                                        className='mr-[50px]' 
+                                        className='mr-[50px]  h-[20px] w-[20px] text-blue-600 focus:ring-0  border-gray-300 rounded-lg cursor-pointer border-none outline-none' 
                                     />
                                     <em>{activity.name}</em>
                                 </div>
@@ -267,11 +266,11 @@ export default function Main() {
                                 </div>
                             </div>
                             {activity.isExpanded && activity.workitem.map((workitem, workitemIndex) => (
-                                <div key={workitemIndex} className='w-[100%] flex pt-[10px] pb-[10px] pl-[15px] flex-row gap-0 '>
+                                <div key={workitemIndex} className='w-[100%] text-[17px] flex pt-[10px] pb-[10px] pl-[15px] flex-row gap-0 '>
                                     <div className='w-[33%] relative pl-[18%]'>
                                     <div className='absolute h-[20px] w-[50px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] left-52'></div>
 
-                                        <input type='checkbox' checked={workitem.isChecked} onClick={()=>handleworkChange(index,activityIndex,workitemIndex)} className='mr-[50px]' />
+                                        <input type='checkbox' checked={workitem.isChecked} onClick={()=>handleworkChange(index,activityIndex,workitemIndex)} className='mr-[50px]  h-[20px] w-[20px] text-blue-600 focus:ring-0  border-gray-300 rounded-lg cursor-pointer border-none outline-none'  />
                                         <em>{workitem.name}</em>
                                     </div>
                                     <div className='w-[33%] '></div>
