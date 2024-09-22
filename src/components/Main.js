@@ -332,7 +332,7 @@ function changeAll(e1,index){
                         <div key={activityIndex} style={{display:`${item.isExpanded?"block":"none"}`}} className={` text-black text-[17px]`}>
                             <div className='w-[100%] pt-[10px] pb-[10px] pl-[15px] flex flex-row gap-0'>
                                 <div className='w-[33%]  max-md:w-[20%]  relative pl-[6%] max-md:pl-[3%]'>
-                                    {activityIndex === 0 && <div className='absolute h-[20px] max-sm:hidden w-[40px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] max-lg:left-1 max-lg:w-[30px] max-sm:w-[20px] left-4'></div>}
+                                    { <div className='absolute h-[20px] max-sm:hidden w-[40px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] max-lg:left-1 max-lg:w-[30px] max-sm:w-[20px] left-4'></div>}
                                     <input 
                                         type='checkbox' 
                                         onChange={(e)=>handleActivityChange(e.target,index , activityIndex)} 
@@ -350,10 +350,12 @@ function changeAll(e1,index){
                                 </div>
                             </div>
                             { activity.workitem.map((workitem, workitemIndex) => (
-                                <div style={{display:`${activity.isExpanded?"block":"none"}`}} key={workitemIndex} className='w-[100%] text-[17px] flex pt-[10px] pb-[10px] pl-[15px] flex-row gap-0 '>
+                                <div style={{display:`${activity.isExpanded?"block":"none"}`}} key={workitemIndex} className='overflow-clip w-[100%] text-[17px] flex pt-[10px] pb-[10px] pl-[15px] flex-row gap-0 '>
                                     <div className='w-[33%]  relative pl-[18%] max-md:pl-[60px]'>
                                         <div className='absolute h-[20px] w-[30px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] left-44 max-md:left-32 max-lg:left-10 max-xl:left-14 max-sm:hidden z-[-1] max-lg:w-[30px] max-sm:w-[20px]'></div>
                                         <input type='checkbox'  onClick={(e) => handleWorkItemChange(e,index, activityIndex)} className={`${index}-${activityIndex}-workitem mr-[30px] max-md:mr-[5px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none`}  />
+                                        { activityIndex!==item.activities.length-1 &&  <div className='absolute h-[150px] max-sm:hidden w-[40px] border-l-[2px] border-l-gray-300 top-[-50px] max-lg:left-1 max-lg:w-[30px] max-sm:w-[20px] left-4'></div>}
+
                                         <em>{workitem.name}</em>
                                     </div>
                                     <div className='w-[33%] '></div>
