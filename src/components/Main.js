@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaPlus,FaMinus, FaCaretDown , FaCaretUp } from 'react-icons/fa6';
 import { Modal, Switch } from 'antd';
 
@@ -8,8 +8,8 @@ export default function Main() {
     const [commencementDate, setCommencementDate] = useState('');
     const [completionDate, setCompletionDate] = useState('');
     const [rfqCode, setRfqCode] = useState('');
+    let pack=useRef()
     let [isOverview,setIsOverview]=useState(true)
-    const [dateError, setDateError] = useState('');
     const [isShareModalVisible, setShareModalVisible] = useState(false);
     const handleShareModalClose = () => {
         setShareModalVisible(false);
@@ -106,52 +106,42 @@ export default function Main() {
             ]
         }
     ]);
-
+   
     const checkAllPackages = (e) => {
-        if(packagecheck){
-            setpackage()
+       let elements=document.getElementsByClassName("package")
+       Array.from(elements).forEach((e,index)=>{
+        if(pack.current.checked){
+            e.checked=true
+            changeAll(e ,index)
         }else{
-
+            e.checked=false
+            changeAll(e ,index)
         }
-        const newData = data.map(item => {
-            const newChecked = e.target.checked;
-            item.activities.map((d)=>{
-                d.workitem.map((d)=>d.isChecked=newChecked)
-
+    })
+    };
+function changeAll(e1,index){
+    let activity=document.getElementsByClassName(`${index}-activity`)
+    Array.from(activity).forEach((e,index1)=>{
+        if(e1.checked){
+            e.checked=true
+            let activity=document.getElementsByClassName(`${index}-${index1}-workitem`)
+            Array.from(activity).forEach((e)=>{
+                e.checked=true
             })
-            return {
-                ...item,
-                isChecked: newChecked,
-                activities: item.activities.map(activity => ({
-                    ...activity,
-                    isChecked: newChecked,
-                    
-                }))
-            };
-        });
-        setData(newData);
-    };
-
-    const checkAllActivities = (index) => {
-        const newData = [...data];
-        const isChecked = !newData[index].isChecked;
-        newData[index].isChecked = isChecked;
-
-        newData[index].activities = newData[index].activities.map(activity => {
-            activity.workitem.map((d)=>d.isChecked=isChecked)
-            return {
-                ...activity,
-                isChecked: isChecked,
-                workitem: activity.workitem
-            };
-        });
-
-        setData(newData);
-    };
-
+        }else{
+            e.checked=false
+            let activity=document.getElementsByClassName(`${index}-${index1}-workitem`)
+            Array.from(activity).forEach((e)=>{
+                e.checked=false
+            })
+        }
+       })
+}
+  
     const handleOpener1 = (index) => {
         const newData = [...data];
         newData[index].isExpanded = !newData[index].isExpanded;
+    
         setData(newData);
     };
 
@@ -161,11 +151,6 @@ export default function Main() {
         setData(newData);
     };
 
-    const handleSingleCheck = (index) => {
-        const newData = [...data];
-        newData[index].isChecked = !newData[index].isChecked;
-        setData(newData);
-    };
     function handleworkChange(index,index1,index2){
         const newData = [...data];
         if(newData[index].activities[index1].workitem[index2].isChecked){
@@ -173,6 +158,7 @@ export default function Main() {
         }else{
             newData[index].activities[index1].workitem[index2].isChecked=true
         }
+       
         setData(newData);
     }
     const handleSubmit = () => {
@@ -195,6 +181,91 @@ export default function Main() {
             alert('Please fill in all fields correctly.');
         }
     };
+    function changeData(e1,index){
+        let elements=document.getElementsByClassName("package")
+        let activity=document.getElementsByClassName(`${index}-activity`)
+        Array.from(activity).forEach((e,index1)=>{
+            if(e1.target.checked){
+                e.checked=true
+                let activity=document.getElementsByClassName(`${index}-${index1}-workitem`)
+                Array.from(activity).forEach((e)=>{
+                    e.checked=true
+                })
+            }else{
+                e.checked=false
+                let activity=document.getElementsByClassName(`${index}-${index1}-workitem`)
+                Array.from(activity).forEach((e)=>{
+                    e.checked=false
+                })
+            }
+           })
+        let count=0
+        Array.from(elements).forEach((e)=>{
+        if(e.checked){
+            count++
+        }
+       })
+       if(count==Array.from(elements).length){
+        pack.current.checked=true
+       }else{
+        pack.current.checked=false
+       }
+    }
+    function handleActivityChange(e,index , activityIndex){
+        let activity=document.getElementsByClassName(`${index}-${activityIndex}-workitem`)
+        let ele=document.getElementsByClassName(`package`)
+        let num=Array.from(document.getElementsByClassName(`${index}-activity`))
+        if(e.checked){
+            Array.from(activity).forEach((e)=>{
+                e.checked=true
+            })
+            let count=0
+            num.forEach((e)=>{
+                if(e.checked){
+                    count++
+                }
+            })
+            if(count==num.length){
+                Array.from(ele)[index].checked=true
+                let count=0
+                Array.from(ele).forEach((e)=>{
+                    if(e.checked){
+                        count++
+                    }
+                })
+                if(count==Array.from(ele).length){
+                    pack.current.checked=true
+                }
+            }
+        }else{
+            Array.from(activity).forEach((e)=>{
+                e.checked=false
+            })
+            Array.from(ele)[index].checked=false
+            pack.current.checked=false
+        }
+    }
+    
+    function handleWorkItemChange(e,index , activityIndex){
+        let activities=document.getElementsByClassName(`${index}-activity`)
+        let workitems=document.getElementsByClassName(`${index}-${activityIndex}-workitem`)
+        if(e.target.checked){
+            let count=0
+            Array.from(workitems).forEach((e)=>{
+                if(e.checked){count++}
+            })
+            if(count==Array.from(workitems).length){
+                Array.from(activities)[activityIndex].checked=true
+                console.log(activities[activityIndex])
+                handleActivityChange(activities[activityIndex] , index, activityIndex)
+            }
+        }else{
+            Array.from(activities)[activityIndex].checked=false
+            Array.from(document.getElementsByClassName(`package`))[index].checked=false
+            pack.current.checked=false
+        }
+        
+    }
     return ( 
         <div className='w-[100vw] p-10  max-md:p-2 overflow-hidden'>
        <>
@@ -223,7 +294,7 @@ export default function Main() {
     <div className='overflow-x-auto w-[90vw]'>
     {isOverview &&<div className='w-[90vw] min-w-[900px] flex flex-row gap-0 bg-blue-400 text-black font-semibold text-md pt-[10px] pb-[10px] pl-[15px]'>
             <div className='w-[33%] flex  max-md:w-[20%]  font-[450] max-md:text-[14px] text-[17px] items-center'>
-                <input onChange={checkAllPackages} type='checkbox' className='mr-[50px] max-md:mr-[14px] max-md:w-[14px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' />
+                <input ref={pack} onChange={checkAllPackages} type='checkbox' className='mr-[50px] max-md:mr-[14px] max-md:w-[14px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' />
                 Packages
             </div>
             <div className='w-[33%] max-md:w-[10%]  font-[450] max-md:flex max-md:items-center max-md:text-[14px] text-[17px]'>Rate <em>(in sqft.)</em></div>
@@ -236,9 +307,9 @@ export default function Main() {
                         <div className='w-[33%]   max-md:w-[20%]  '>
                             <input 
                                 type='checkbox' 
-                                checked={item.isChecked} 
-                                onChange={() => checkAllActivities(index)} 
-                                className='mr-[50px] max-md:mr-[5px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' 
+                               onChange={(e)=>changeData(e,index)}
+                             
+                                className='package mr-[50px] max-md:mr-[5px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' 
                             />
                             {item.package}
                         </div>
@@ -251,24 +322,15 @@ export default function Main() {
                             }
                         </div>
                     </div>
-                    {item.isExpanded && item.activities.map((activity, activityIndex) => (
-                        <div key={activityIndex} className='text-black text-[17px]'>
+                 { item.activities.map((activity, activityIndex) => (
+                        <div key={activityIndex} style={{display:`${item.isExpanded?"block":"none"}`}} className={` text-black text-[17px]`}>
                             <div className='w-[100%] pt-[10px] pb-[10px] pl-[15px] flex flex-row gap-0'>
                                 <div className='w-[33%]  max-md:w-[20%]  relative pl-[6%] max-md:pl-[3%]'>
                                     {activityIndex === 0 && <div className='absolute h-[20px] max-sm:hidden w-[40px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] max-lg:left-1 max-lg:w-[30px] max-sm:w-[20px] left-4'></div>}
                                     <input 
                                         type='checkbox' 
-                                        checked={activity.isChecked} 
-                                        onChange={() => {
-                                            const newData = [...data];
-                                            const isChecked = !newData[index].activities[activityIndex].isChecked;
-                                            newData[index].activities[activityIndex].isChecked = isChecked;
-                                            newData[index].activities[activityIndex].workitem.forEach(d => {
-                                                d.isChecked = isChecked;
-                                            });
-                                            setData(newData);
-                                        }} 
-                                        className='mr-[50px] max-md:mr-[5px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' 
+                                        onChange={(e)=>handleActivityChange(e.target,index , activityIndex)} 
+                                        className={`${index}-activity mr-[50px] max-md:mr-[5px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none`}
                                     />
                                     <em>{activity.name}</em>
                                 </div>
@@ -281,11 +343,11 @@ export default function Main() {
                                     }
                                 </div>
                             </div>
-                            {activity.isExpanded && activity.workitem.map((workitem, workitemIndex) => (
-                                <div key={workitemIndex} className='w-[100%] text-[17px] flex pt-[10px] pb-[10px] pl-[15px] flex-row gap-0 '>
+                            { activity.workitem.map((workitem, workitemIndex) => (
+                                <div style={{display:`${activity.isExpanded?"block":"none"}`}} key={workitemIndex} className='w-[100%] text-[17px] flex pt-[10px] pb-[10px] pl-[15px] flex-row gap-0 '>
                                     <div className='w-[33%]  relative pl-[18%] max-md:pl-[60px]'>
                                         <div className='absolute h-[20px] w-[30px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] left-44 max-md:left-32 max-lg:left-10 max-xl:left-14 max-sm:hidden z-[-1] max-lg:w-[30px] max-sm:w-[20px]'></div>
-                                        <input type='checkbox' checked={workitem.isChecked} onClick={() => handleworkChange(index, activityIndex, workitemIndex)} className='mr-[30px] max-md:mr-[5px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none'  />
+                                        <input type='checkbox'  onClick={(e) => handleWorkItemChange(e,index, activityIndex)} className={`${index}-${activityIndex}-workitem mr-[30px] max-md:mr-[5px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none`}  />
                                         <em>{workitem.name}</em>
                                     </div>
                                     <div className='w-[33%] '></div>
