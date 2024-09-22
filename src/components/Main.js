@@ -199,9 +199,9 @@ export default function Main() {
         <div className='w-[100vw] p-10  max-md:p-2 overflow-hidden'>
        <>
        
-            <h1 className='text-2xl mb-10 max-md:m-auto'>Create WorkOrder</h1>
-            <div className='flex mb-10 relative gap-5 flex-wrap'>
-              <div className='flex-row flex  w-[80%] min-w-[400px] flex-wrap'>
+            <h1 className='text-2xl mb-10 max-md:m-auto max-md:text-center '>Create WorkOrder</h1>
+            <div className='flex mb-10 relative gap-5 flex-wrap justify-center'>
+              <div className='flex-row flex justify-center w-[80%] min-w-[400px] flex-wrap'>
 
                 <div onClick={()=>setIsOverview(true)} className={` cursor-pointer border-black border-b-[2px] ${!isOverview?"border-b-gray-400 text-gray-400":"border-b-black text-black"} text-black font-semibold text-lg  w-[250px] text-center p-2`}>Overview</div>
                 <div onClick={()=>setIsOverview(false)} className={`w-[250px] cursor-pointer border-b-[2px] ${isOverview?"border-b-gray-400 text-gray-400":" text-black border-b-black"}  font-semibold text-lg text-center p-2`}>Other</div>
@@ -209,32 +209,40 @@ export default function Main() {
                 <button onClick={()=>setShareModalVisible(true)} className='w-[200px] p-2 text-lg pl-4 pr-4 rounded-md text-white bg-green-400 '>Save </button>
             </div>
             <div className='min-w-[900px]'>
-    {isOverview && (
+    {/* {isOverview && (
         <div className='w-[90vw] flex flex-row gap-0 bg-blue-400 text-black font-semibold text-md pt-[10px] pb-[10px] pl-[15px]'>
-            <div className='w-[33%] max-sm:w-[11%] font-[450] max-md:text-[14px] text-[17px]'>
-                <input onChange={checkAllPackages} type='checkbox' className='mr-[50px] max-md:h-[14px] max-md:w-[14px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' />
+            <div className='w-[33%] flex   font-[450] max-md:text-[14px] text-[17px] items-center'>
+                <input onChange={checkAllPackages} type='checkbox' className='mr-[50px] max-md:mr-[14px] max-md:w-[14px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' />
                 Packages
             </div>
-            <div className='w-[33%] max-sm:w-[30%] max-sm:ml-10 font-[450] max-md:flex max-md:items-center max-md:text-[14px] text-[17px]'>Rate <em>(in sqft.)</em></div>
-            <div className='w-[33%] max-sm:w-[11%] font-[450] max-md:flex max-md:items-center max-md:text-[14px] text-[17px]'>Total</div>
+            <div className='w-[33%] max-md:w-[200px]  font-[450] max-md:flex max-md:items-center max-md:text-[14px] text-[17px]'>Rate <em>(in sqft.)</em></div>
+            <div className='w-[33%] max-md:w-[25%] font-[450] max-md:flex max-md:items-center max-md:text-[14px] text-[17px]'>Total</div>
         </div>
     )}
-    
+     */}
     <div className='overflow-x-auto w-[90vw]'>
+    {isOverview &&<div className='w-[90vw] min-w-[900px] flex flex-row gap-0 bg-blue-400 text-black font-semibold text-md pt-[10px] pb-[10px] pl-[15px]'>
+            <div className='w-[33%] flex  max-md:w-[20%]  font-[450] max-md:text-[14px] text-[17px] items-center'>
+                <input onChange={checkAllPackages} type='checkbox' className='mr-[50px] max-md:mr-[14px] max-md:w-[14px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' />
+                Packages
+            </div>
+            <div className='w-[33%] max-md:w-[15%]  font-[450] max-md:flex max-md:items-center max-md:text-[14px] text-[17px]'>Rate <em>(in sqft.)</em></div>
+            <div className='w-[33%] max-md:w-[25%] font-[450] max-md:flex max-md:items-center max-md:text-[14px] text-[17px]'>Total</div>
+        </div>}
         <div className='min-w-[900px]'>
             {isOverview ? data.map((item, index) => (
                 <div key={index} className='border-b-2 border-r-2 border-l-2 border-b-gray-300'>
                     <div className='w-[100%] text-[17px] font-[450] text-black pt-[10px] pb-[10px] pl-[15px] flex flex-row gap-0'>
-                        <div className='w-[33%]   max-sm:w-[11%]  '>
+                        <div className='w-[33%]   max-md:w-[20%]  '>
                             <input 
                                 type='checkbox' 
                                 checked={item.isChecked} 
                                 onChange={() => checkAllActivities(index)} 
-                                className='mr-[50px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' 
+                                className='mr-[50px] max-md:mr-[5px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' 
                             />
                             {item.package}
                         </div>
-                        <div className='w-[33%]  max-sm:w-[11%] '>{item.rate}</div>
+                        <div className='w-[33%]  max-md:w-[15%] '>{item.rate}</div>
                         <div className='w-[33%]  relative flex flex-row justify-between'>
                             {item.total} 
                             {item.isExpanded ? 
@@ -246,7 +254,7 @@ export default function Main() {
                     {item.isExpanded && item.activities.map((activity, activityIndex) => (
                         <div key={activityIndex} className='text-black text-[17px]'>
                             <div className='w-[100%] pt-[10px] pb-[10px] pl-[15px] flex flex-row gap-0'>
-                                <div className='w-[33%]  max-md:w-[20%]  relative pl-[6%]'>
+                                <div className='w-[33%]  max-md:w-[20%]  relative pl-[6%] max-md:pl-[3%]'>
                                     {activityIndex === 0 && <div className='absolute h-[20px] max-sm:hidden w-[40px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] max-lg:left-1 max-lg:w-[30px] max-sm:w-[20px] left-4'></div>}
                                     <input 
                                         type='checkbox' 
@@ -260,12 +268,12 @@ export default function Main() {
                                             });
                                             setData(newData);
                                         }} 
-                                        className='mr-[50px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' 
+                                        className='mr-[50px] max-md:mr-[5px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' 
                                     />
                                     <em>{activity.name}</em>
                                 </div>
-                                <div className='w-[33%] max-md:w-[20%]  '>{item.rate}</div>
-                                <div className='w-[33%] max-md:w-[20%] relative flex flex-row justify-between'>
+                                <div className='w-[33%] max-md:w-[15%]  '>{item.rate}</div>
+                                <div className='w-[33%] max-md:w-[25%] relative flex flex-row justify-between'>
                                     {item.total} 
                                     {activity.isExpanded ? 
                                         <FaCaretUp onClick={() => handleOpener2(index, activityIndex)} className='absolute cursor-pointer left-[125px] max-md:right-[10px]' /> : 
@@ -275,9 +283,9 @@ export default function Main() {
                             </div>
                             {activity.isExpanded && activity.workitem.map((workitem, workitemIndex) => (
                                 <div key={workitemIndex} className='w-[100%] text-[17px] flex pt-[10px] pb-[10px] pl-[15px] flex-row gap-0 '>
-                                    <div className='w-[33%] relative pl-[18%]'>
-                                        <div className='absolute h-[20px] w-[30px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] left-44 max-lg:left-10 max-xl:left-14 max-sm:hidden z-[-1] max-lg:w-[30px] max-sm:w-[20px]'></div>
-                                        <input type='checkbox' checked={workitem.isChecked} onClick={() => handleworkChange(index, activityIndex, workitemIndex)} className='mr-[50px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none'  />
+                                    <div className='w-[33%]  relative pl-[18%] max-md:pl-[60px]'>
+                                        <div className='absolute h-[20px] w-[30px] border-b-[2px] border-l-[2px] border-b-gray-300 border-l-gray-300 top-[-10px] left-44 max-md:left-32 max-lg:left-10 max-xl:left-14 max-sm:hidden z-[-1] max-lg:w-[30px] max-sm:w-[20px]'></div>
+                                        <input type='checkbox' checked={workitem.isChecked} onClick={() => handleworkChange(index, activityIndex, workitemIndex)} className='mr-[30px] max-md:mr-[5px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none'  />
                                         <em>{workitem.name}</em>
                                     </div>
                                     <div className='w-[33%] '></div>
