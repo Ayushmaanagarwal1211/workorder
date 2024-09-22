@@ -20,11 +20,17 @@ export default function Main() {
     };
     const handleCommencementDateChange = (e) => {
         const value = e.target.value;
-        setCommencementDate(value)
+        if(/[0-9]/.test(value)){
+
+            setCommencementDate(value)
+        }
  };
     const handleCompletionDateChange = (e) => {
         const value = e.target.value;
-       setCompletionDate(value)
+        if(/[0-9]/.test(value)){
+
+            setCompletionDate(value)
+        }
     };
     const [data, setData] = useState([
         {
