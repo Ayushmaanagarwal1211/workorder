@@ -226,7 +226,7 @@ export default function Main() {
                 <input onChange={checkAllPackages} type='checkbox' className='mr-[50px] max-md:mr-[14px] max-md:w-[14px] h-[20px] w-[20px] text-blue-600 focus:ring-0 border-gray-300 rounded-lg cursor-pointer border-none outline-none' />
                 Packages
             </div>
-            <div className='w-[33%] max-md:w-[15%]  font-[450] max-md:flex max-md:items-center max-md:text-[14px] text-[17px]'>Rate <em>(in sqft.)</em></div>
+            <div className='w-[33%] max-md:w-[10%]  font-[450] max-md:flex max-md:items-center max-md:text-[14px] text-[17px]'>Rate <em>(in sqft.)</em></div>
             <div className='w-[33%] max-md:w-[25%] font-[450] max-md:flex max-md:items-center max-md:text-[14px] text-[17px]'>Total</div>
         </div>}
         <div className='min-w-[900px]'>
@@ -242,7 +242,7 @@ export default function Main() {
                             />
                             {item.package}
                         </div>
-                        <div className='w-[33%]  max-md:w-[15%] '>{item.rate}</div>
+                        <div className='w-[33%]  max-md:w-[10%] '>{item.rate}</div>
                         <div className='w-[33%]  relative flex flex-row justify-between'>
                             {item.total} 
                             {item.isExpanded ? 
@@ -272,7 +272,7 @@ export default function Main() {
                                     />
                                     <em>{activity.name}</em>
                                 </div>
-                                <div className='w-[33%] max-md:w-[15%]  '>{item.rate}</div>
+                                <div className='w-[33%] max-md:w-[10%]  '>{item.rate}</div>
                                 <div className='w-[33%] max-md:w-[25%] relative flex flex-row justify-between'>
                                     {item.total} 
                                     {activity.isExpanded ? 
