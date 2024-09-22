@@ -200,8 +200,8 @@ export default function Main() {
        <>
        
             <h1 className='text-2xl mb-10 max-md:m-auto max-md:text-center '>Create WorkOrder</h1>
-            <div className='flex mb-10 relative gap-5 flex-wrap justify-center'>
-              <div className='flex-row flex justify-center w-[80%] min-w-[400px] flex-wrap'>
+            <div className='flex mb-10 relative gap-5 flex-wrap max-md:justify-center'>
+              <div className='flex-row flex max-md:justify-center w-[80%] min-w-[400px] flex-wrap'>
 
                 <div onClick={()=>setIsOverview(true)} className={` cursor-pointer border-black border-b-[2px] ${!isOverview?"border-b-gray-400 text-gray-400":"border-b-black text-black"} text-black font-semibold text-lg  w-[250px] text-center p-2`}>Overview</div>
                 <div onClick={()=>setIsOverview(false)} className={`w-[250px] cursor-pointer border-b-[2px] ${isOverview?"border-b-gray-400 text-gray-400":" text-black border-b-black"}  font-semibold text-lg text-center p-2`}>Other</div>
